@@ -147,16 +147,43 @@ async def root():
     # 在 Vercel 上，静态文件通过 vercel.json 路由处理
     # 这里直接返回文件内容
     static_path = "static/index.html"
-    if os.path.exists(static_path):
-        return FileResponse(static_path)
-    else:
-        # 如果找不到文件，尝试读取并返回 HTML 内容
-        try:
-            with open(static_path, "r", encoding="utf-8") as f:
-                from fastapi.responses import HTMLResponse
-                return HTMLResponse(content=f.read())
-        except:
-            raise HTTPException(status_code=404, detail="Static files not found")
+    
+    # 尝试多个可能的路径
+    possible_paths = [
+        static_path,
+        os.path.join(os.path.dirname(__file__), static_path),
+        os.path.join(os.getcwd(), static_path),
+    ]
+    
+    for path in possible_paths:
+        if os.path.exists(path):
+            return FileResponse(path)
+    
+    # 如果找不到文件，尝试读取并返回 HTML 内容
+    try:
+        for path in possible_paths:
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    from fastapi.responses import HTMLResponse
+                    return HTMLResponse(content=f.read())
+            except FileNotFoundError:
+                continue
+    except Exception as e:
+        logger.error(f"Error loading static file: {e}")
+    
+    # 如果都失败了，返回一个简单的 HTML
+    from fastapi.responses import HTMLResponse
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html>
+    <head><title>AI Chat</title></head>
+    <body>
+        <h1>AI Chat with Agentic Loop</h1>
+        <p>Static files not found. Please check the deployment.</p>
+        <p><a href="/docs">API Documentation</a></p>
+    </body>
+    </html>
+    """)
 
 
 @app.get(
