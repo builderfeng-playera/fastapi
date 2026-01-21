@@ -1,0 +1,22 @@
+Goal: 
+1. Frictionless Interaction 
+2. Contextual Intelligence 
+3. Proactive Intelligence
+
+JSON is for AI (precise but not readable)
+
+Core Agentic Engine
+FastAPI:
+Serve Model via API endpoints (It's become very popular for building backend services, especially for ML/AI applications where you need to serve models via API endpoints)
+1. Visibility 
+2. Validate (API or backend or frontend)
+3. JSON (language for AI - precision)
+
+AI need OpenAPI with more precision to conduct the coding.
+JSON (JavaScript Object Notation) is a lightweight text format for storing and exchanging data. 
+It's human-readable and language-agnostic, making it the de facto standard for APIs and configuration files.
+It's everywhere — REST APIs return JSON, config files use it, 
+and frameworks like FastAPI automatically serialize your Python objects to JSON responses. 
+When your agents communicate with each other or with external services, they're almost certainly passing JSON back and forth.
+
+FastAPI --> turn Python objects to JSON responses 
