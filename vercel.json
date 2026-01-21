@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
   "routes": [
     {
       "src": "/static/(.*)",
@@ -19,12 +13,13 @@
       "dest": "api/index.py"
     }
   ],
-  "env": {
-    "PYTHONUNBUFFERED": "1"
-  },
   "functions": {
     "api/index.py": {
+      "runtime": "@vercel/python",
       "maxDuration": 60
     }
+  },
+  "env": {
+    "PYTHONUNBUFFERED": "1"
   }
 }
